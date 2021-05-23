@@ -32,7 +32,7 @@ class Player1(GameSprite):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_w] and self.rect.y > 40:
             self.rect.y -= self.speed
-        if keys_pressed[K_s] and self.rect.y < 345:
+        if keys_pressed[K_s] and self.rect.y < 320:
             self.rect.y += self.speed
         
 
@@ -41,23 +41,19 @@ class Player2(GameSprite):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_UP] and self.rect.y > 40:
             self.rect.y -= self.speed
-        if keys_pressed[K_DOWN] and self.rect.y < 345:
+        if keys_pressed[K_DOWN] and self.rect.y < 320:
             self.rect.y += self.speed
 
 
-
-
-
-
-hero1 = Player1('hero1.png', 5, 190, 5, 40, 145)
-hero2 = Player2('hero2.png', 620, 190, 5, 40, 140)
+hero1 = Player1('hero1.png', 10, 190, 3, 40, 145)
+hero2 = Player2('hero2.png', 650, 190, 3, 40, 140)
 ball = GameSprite('ball.png', 325, 220, 3, 50, 50)
 
 finish = False
 game = True
 
-x_speed = 3
-y_speed = 3
+x_speed = 5
+y_speed = 5
 
 
 while game:
@@ -69,8 +65,17 @@ while game:
 
     if not finish:
         window.blit(background,(0,0))
-        # a = sprite.collide_rect(hero, enemy)
-        # b = sprite.collide_rect(hero, tresh)
+        if ball.rect.x > 675:
+            print('You died')
+            background = transform.scale( image.load('poleblue.jpg'),(wh,ww))
+            window.blit(background,(0,0))
+            finish = True
+        if ball.rect.x < -30:
+            print('You win')
+            background = transform.scale( image.load('polered.jpg'),(wh,ww))
+            window.blit(background,(0,0))
+            finish = True
+        
         ball.rect.x += x_speed
         ball.rect.y += y_speed
         if sprite.collide_rect(hero1, ball) or sprite.collide_rect(hero2, ball):
@@ -86,24 +91,6 @@ while game:
         ball.reset()
         ball.update()
     
-       
-
-        # if a == True:
-        #     print('You died')
-        #     background = transform.scale( image.load('background1.jpg'),(wh,ww))
-        #     window.blit(background,(0,0))
-        #     finish = True
-        # if b == True:
-        #     print('You win')
-        #     background = transform.scale( image.load('background2.jpg'),(wh,ww))
-        #     window.blit(background,(0,0))
-        #     finish = True
-        # if c == True or f == True or t == True or i == True or r == True or k == True or q == True :
-        #     print('You died')
-        #     background = transform.scale( image.load('background1.jpg'),(wh,ww))
-        #     window.blit(background,(0,0))
-        #     finish = True
-
-       
+    
 
     display.update()
